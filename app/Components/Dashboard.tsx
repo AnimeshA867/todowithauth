@@ -1,24 +1,30 @@
 import React from "react";
 import Tasks from "./Tasks";
 import DeleteAll from "./DeleteAll";
+import { User } from "@/models/user";
 type HomeProps = {
   data: any;
 };
 
 const getData = async (email: String | null | undefined) => {
   try {
-    const res = await fetch(
-      `${process.env.PUBLIC_URL}/api/data?email=${email}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        cache: "no-store",
+    const id = await User.findOne({ email });
+    if (id) {
+      const res = await fetch(
+        `${process.env.PUBLIC_URL}/api/data?email=${id}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          cache: "no-store",
+        }
+      );
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Error fetching the data.");
       }
-    );
-    if (res.ok) {
-      return res.json();
     } else {
-      throw new Error("Error fetching the data.");
+      throw new Error("Couldn't find the user.");
     }
   } catch (error) {
     console.log(error);

@@ -26,21 +26,15 @@ export async function GET(req:NextRequest){
        try {
        const searchParams = req.nextUrl.searchParams
   const email = searchParams.get('email')
-      
-        console.log(email)
             // Find the user with the given email
-            const user = await User.findOne({ email });
 
-            if (user) {
+          
                 // If the user is found, find data with matching autherId
-                const filteredData = await Data.find({ autherId: user._id });
+                const filteredData = await Data.find({ autherId: email });
 
                 // Respond with the filtered data
                 return NextResponse.json(filteredData,{status:201});
-            } else {
-                // Handle the case where the user is not found
-                throw new Error("User not found.")
-            }
+          
         } catch (error) {
             // Handle other errors
             console.error(error);

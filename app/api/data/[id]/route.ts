@@ -29,7 +29,7 @@ export async function GET(req:NextRequest,{params}:{params:any}){
 }
 
 
-export async function DELETE(req,{params}){
+export async function DELETE({params}){
     await connectMongoDB();
     const {id}= params
 
