@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { Provider as SessionProvider } from "@/utils/functions";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/options";
 
 const Provider = async ({ children }: { children: React.ReactNode }) => {
   const session: any = await getServerSession(authOptions);

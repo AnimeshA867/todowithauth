@@ -29,7 +29,7 @@ const RegisterForm = () => {
         return;
       }
 
-      const res = await fetch("api/register", {
+      const res = await fetch(`${process.env.PUBLIC_URL}api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
 

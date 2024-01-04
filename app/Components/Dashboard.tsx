@@ -7,11 +7,14 @@ type HomeProps = {
 
 const getData = async (email: String | null | undefined) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/data?email=${email}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.PUBLIC_URL}/api/data?email=${email}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+      }
+    );
     if (res.ok) {
       return res.json();
     } else {
