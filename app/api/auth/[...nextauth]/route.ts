@@ -1,21 +1,89 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import User from "@/models/user";
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
+import { connectMongoDB as connect } from '@/lib/mongodb';
+import Credentials from 'next-auth/providers/credentials';
+import { AuthOptions, ISODateString, User } from 'next-auth';
+import { User as UserModel } from '@/models/user';
+import { JWT } from 'next-auth/jwt';
+import NextAuth from 'next-auth/next';
+import { NextApiHandler } from 'next/types';
 
-export const authOptions:any = {
+export type CustomSession = {
+  user?: CustomUser;
+  expires: ISODateString;
+};
+
+export type CustomUser = {
+  id?: string | null;
+  name?: string | null;
+  email?: string | null;
+  role?: string | null;
+};
+
+// Explicitly specify the types for authOptions
+export const authOptions: AuthOptions = {
+  pages: {
+    signIn: '/login',
+  },
+
+  callbacks: {
+    async signIn({ user }) {
+      connect();
+      try {
+        const findUser = await UserModel.findOne({ email: user.email });
+        if (findUser) {
+          return true;
+        }
+        await UserModel.create({
+          email: user.email,
+          name: user.name,
+          role: 'User',
+        });
+        return true;
+      } catch (error) {
+        console.log('The error is ', error);
+        return false;
+      }
+    },
+
+    async jwt({ token, user }: { token: JWT; user: CustomUser }) {
+      if (user) {
+        user.role = user?.role == null ? 'User' : user?.role;
+        token.user = user;
+      }
+      return token;
+    },
+    async session({
+      session,
+      token,
+      user,
+    }: {
+      session: CustomSession;
+      token: JWT;
+      user: User;
+    }) {
+      session.user = token.user as CustomUser;
+      return session;
+    },
+  },
   providers: [
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {},
+    Credentials({
+      name: 'Welcome Back',
+      type: 'credentials',
 
-      async authorize(credentials:any) {
+      credentials: {
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'Enter your email',
+        },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials: any) {
         const { email, password } = credentials;
-        console.log(`Email: ${email} Password: ${password}`)
+        console.log(`Email: ${email} Password: ${password}`);
         try {
-          await connectMongoDB();
-          const user = await User.findOne({ email });
+          await connect();
+          const user = await UserModel.findOne({ email });
 
           if (!user) {
             return null;
@@ -24,28 +92,18 @@ export const authOptions:any = {
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (!passwordsMatch) {
-            throw new Error("The password doesn't match.")
-            
-          }
-          else{
-            console.log("Password matched.");
+            throw new Error("The password doesn't match.");
+          } else {
+            console.log('Password matched.');
             return user;
           }
         } catch (error) {
-          console.log("Error: ", error);
+          console.log('Error: ', error);
         }
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/",
-  },
 };
 
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+const handler: NextApiHandler = NextAuth(authOptions);
+export default handler;

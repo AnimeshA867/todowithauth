@@ -1,7 +1,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import Data from "@/models/data";
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/user";
+import {User} from "@/models/user";
 import { NextURL } from "next/dist/server/web/next-url";
 
 
@@ -49,7 +49,7 @@ export async function GET(req:NextRequest){
 
 }
 
-export async function DELETE(req){
+export async function DELETE(req:NextRequest){
     await connectMongoDB();
     const filter= req.nextUrl.searchParams.get('deleteall')
 
