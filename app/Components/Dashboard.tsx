@@ -2,16 +2,22 @@ import React from "react";
 import Tasks from "./Tasks";
 import DeleteAll from "./DeleteAll";
 import { User } from "@/models/user";
+import { connectMongoDB } from "@/lib/mongodb";
 type HomeProps = {
   data: any;
 };
 
 const getData = async (email: String | null | undefined) => {
   try {
+    if (!email) {
+      throw new Error("Email not found.");
+    }
+    await connectMongoDB();
     const id = await User.findOne({ email });
+
     if (id) {
       const res = await fetch(
-        `${process.env.PUBLIC_URL}/api/data?email=${id}`,
+        `${process.env.PUBLIC_URL}/api/data?email=${id._id}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -37,6 +43,7 @@ const Dashboard = async ({ data: session }: HomeProps) => {
   }
   let completed, inProgress, untouched;
   const email = session.user?.email;
+  console.log(email);
   const tasks = await getData(email);
   if (!tasks) {
     console.log("Unable to fetch data.");

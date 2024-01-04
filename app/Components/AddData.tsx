@@ -18,7 +18,7 @@ const AddData = () => {
         throw new Error("Email not avaiable");
       }
 
-      const res = await fetch(`${process.env.PUBLIC_URL}api/data`, {
+      const res = await fetch(`/api/data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: todo, flag: "Untouched", email }),

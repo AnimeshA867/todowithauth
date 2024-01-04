@@ -27,7 +27,7 @@ const EditData = ({
       //     throw new Error("Email not avaiable");
       //   }
 
-      const res = await fetch(`${process.env.PUBLIC_URL}/api/data/${id}`, {
+      const res = await fetch(`/api/data/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newTodo, flag: newFlag }),
