@@ -3,7 +3,7 @@ import React from "react";
 
 const getData = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/data/${id}`, {
+    const res = await fetch(`${process.env.PUBLIC_URL}/api/data/${id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
