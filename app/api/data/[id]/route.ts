@@ -32,7 +32,7 @@ export async function GET(req:any,{params}:{params:{id:String}}){
 }
 
 
-export async function DELETE(req:NextRequest,{params}:{params:{id:String}}){
+export async function DELETE(req:any,{params}:{params:{id:String}}){
     await connectMongoDB();
     console.log(params);
     const {id}= params
@@ -40,5 +40,5 @@ export async function DELETE(req:NextRequest,{params}:{params:{id:String}}){
 
     await Data.findByIdAndDelete(id);
     
-    return NextResponse.json({message:"Task Deleted."},{status:201})
+    return NextResponse.json({message:"Task Deleted."},{status:200})
 }
