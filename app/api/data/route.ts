@@ -33,7 +33,7 @@ export async function GET(req:NextRequest){
                 const filteredData = await Data.find({ autherId: email });
 
                 // Respond with the filtered data
-                return NextResponse.json(filteredData,{status:201});
+                return NextResponse.json(filteredData,{status:200});
           
         } catch (error) {
             // Handle other errors
