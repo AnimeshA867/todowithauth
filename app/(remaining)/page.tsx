@@ -8,7 +8,7 @@ export default async function Home() {
 
   if (!session) redirect("/Login");
   return (
-    <main className="flex min-h-screen flex-col ">
+    <main className="flex min-h-screen flex-col  ">
       {/* <Navbar /> */}
       <Dashboard data={session} />
     </main>
