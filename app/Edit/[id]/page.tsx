@@ -18,8 +18,9 @@ const getData = async (id) => {
   }
 };
 
-const page = async ({ params }) => {
+const page = async ({ params }: { params: any }) => {
   const { id } = params;
+  console.log(params);
   const data = await getData(id);
 
   if (!data) {
