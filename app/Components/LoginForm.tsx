@@ -24,6 +24,7 @@ const LoginForm = () => {
 
       if (res?.error) {
         setError("Invalid Credentials.");
+        setLoading(false);
         return;
       }
 

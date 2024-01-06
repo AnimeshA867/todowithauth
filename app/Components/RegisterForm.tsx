@@ -29,6 +29,7 @@ const RegisterForm = () => {
       });
       if (userExists.status == 500) {
         setError("User already exists.");
+        setLoading(false);
         return;
       }
 
