@@ -1,7 +1,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
     import Data from "@/models/data";
 import { NextRequest, NextResponse } from "next/server";
-export async function PUT(request:any, {params}:{params:any}){
+export async function PUT(request:any, {params}:{params:{id:String}}){
     const {id}= params;
     const {title, flag}=await request.json();
 
