@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 const EditData = ({
   title,
   flag,
@@ -16,6 +17,7 @@ const EditData = ({
   const { data: session } = useSession();
   const [newTodo, setNewTodo] = useState(title);
   const [newFlag, setNewFlag] = useState(flag);
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!session) {
@@ -26,6 +28,7 @@ const EditData = ({
       //   if (!email) {
       //     throw new Error("Email not avaiable");
       //   }
+      setLoading(true);
 
       const res = await fetch(`/api/data/${id}`, {
         method: "PUT",
@@ -41,6 +44,7 @@ const EditData = ({
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   return (
     <div className="h-fit w-1/3">
@@ -74,8 +78,12 @@ const EditData = ({
             Completed
           </option>
         </select>
-        <button type="submit" className="bg-blue-400 px-4 py-2">
-          Submit
+        <button
+          type="submit"
+          className="bg-blue-400 px-4 py-2"
+          disabled={loading}
+        >
+          {!loading ? "Submit" : <Spinner />}
         </button>
       </form>
     </div>

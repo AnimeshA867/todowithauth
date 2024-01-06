@@ -2,11 +2,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ const RegisterForm = () => {
     }
 
     try {
+      setLoading(true);
       const userExists = await fetch("api/userExists", {
         method: "POST",
         headers: {
@@ -29,7 +32,7 @@ const RegisterForm = () => {
         return;
       }
 
-      const res = await fetch(`${process.env.PUBLIC_URL}api/register`, {
+      const res = await fetch(`api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
 
@@ -50,6 +53,7 @@ const RegisterForm = () => {
     } catch (error) {
       console.log("Error during registration: ", error);
     }
+    setLoading(false);
   };
 
   return (
@@ -82,8 +86,9 @@ const RegisterForm = () => {
           <button
             className="bg-green-600 text-white fold-bold cursor-pointer px-6 py-2"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {!loading ? "Register" : <Spinner />}
           </button>
           {error && (
             <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rouneded-md mt-2">

@@ -10,10 +10,11 @@ export async function PUT(request:any, {params}:{params:any}){
     return NextResponse.json({message:"Topic Updated."},{status:200})
 }
 
-export async function GET(req:NextRequest,{params}:{params:any}){
-    const {id}=params;
+export async function GET({params}:{params:any}){
+    
     await connectMongoDB();
     try{
+        const {id}=params;
 
         const data=await Data.findById(id)
         if(data){
@@ -31,7 +32,9 @@ export async function GET(req:NextRequest,{params}:{params:any}){
 
 export async function DELETE({params}){
     await connectMongoDB();
+    console.log(params);
     const {id}= params
+    
 
     await Data.findByIdAndDelete(id);
     

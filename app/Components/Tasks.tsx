@@ -11,7 +11,7 @@ const Tasks = ({ data, id }: { data: String; id: String }) => {
         "Do you seriously want to delete this data?"
       );
       if (confirmation) {
-        const res = await fetch(`api/data/${id}`, {
+        const res = await fetch(`${process.env.PUBLIC_URL}/api/data/${id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
         });

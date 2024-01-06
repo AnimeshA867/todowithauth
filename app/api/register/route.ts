@@ -17,7 +17,7 @@ export async function POST(req:NextRequest){
             const hashedPassword= await bcrypt.hash(password,10)
 
             await User.create({name,email,password:hashedPassword})
-            return NextResponse.json({message:"User Registration Sucessfull."},{status:501})
+            return NextResponse.json({message:"User Registration Sucessfull."},{status:201})
         }
 
     }catch(error){

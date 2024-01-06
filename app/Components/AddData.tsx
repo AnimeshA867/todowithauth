@@ -3,16 +3,19 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 const AddData = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [todo, setTodo] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!session) {
       redirect("/Login");
     }
     try {
+      setLoading(true);
       const email = session?.user?.email;
       if (!email) {
         throw new Error("Email not avaiable");
@@ -32,6 +35,7 @@ const AddData = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(true);
   };
   return (
     <div className="h-fit w-1/3">
@@ -46,8 +50,12 @@ const AddData = () => {
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
         />
-        <button type="submit" className="bg-blue-400 px-4 py-2">
-          Submit
+        <button
+          type="submit"
+          className="bg-blue-400 px-4 py-2"
+          disabled={loading}
+        >
+          {!loading ? "Submit" : <Spinner />}
         </button>
       </form>
     </div>
