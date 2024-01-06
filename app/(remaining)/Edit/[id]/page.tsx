@@ -2,11 +2,10 @@ import EditData from "@/app/Components/EditData";
 import React from "react";
 
 const getData = async (id: String) => {
-  console.log(id);
   const url = `${process.env.PUBLIC_URL}/api/data/${id}`;
-  console.log(url);
+
   try {
-    const res = await fetch(`${process.env.PUBLIC_URL}/api/data/${id}`, {
+    const res = await fetch(url, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -23,7 +22,7 @@ const getData = async (id: String) => {
 
 const page = async ({ params }: { params: { id: String } }) => {
   const { id }: { id: String } = params;
-  console.log(params);
+
   const data = await getData(id);
 
   if (!data) {

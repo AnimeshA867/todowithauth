@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-const DeleteAll = ({ filter }: { filter: String }) => {
+const DeleteAll = ({ filter, id }: { filter: String; id: String }) => {
   const router = useRouter();
   const handleDelete = async () => {
     const confirmation = confirm(
@@ -9,7 +9,8 @@ const DeleteAll = ({ filter }: { filter: String }) => {
     );
     if (confirmation) {
       try {
-        const res = await fetch(`api/data?deleteall=${filter}`, {
+        console.log(id);
+        const res = await fetch(`api/data?deleteall=${filter}&id=${id}`, {
           headers: { "Content-Type": "application/json" },
           method: "DELETE",
         });

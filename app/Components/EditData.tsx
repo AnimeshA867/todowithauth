@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Spinner from "./Spinner";
+import { putCall } from "@/utils/other";
 const EditData = ({
   title,
   flag,
@@ -18,7 +19,9 @@ const EditData = ({
   const [newTodo, setNewTodo] = useState(title);
   const [newFlag, setNewFlag] = useState(flag);
   const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e: any) => {
+    console.log("This is working.");
     e.preventDefault();
     if (!session) {
       redirect("/Login");
@@ -29,17 +32,14 @@ const EditData = ({
       //     throw new Error("Email not avaiable");
       //   }
       setLoading(true);
-
-      const res = await fetch(`api/data/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: newTodo, flag: newFlag }),
-      });
-      if (res.ok) {
+      const res = putCall({ title: newTodo, flag: newFlag, id });
+      if (res !== null) {
         setNewTodo("");
         alert("Todo updated.");
         router.push("/");
         router.refresh();
+      } else {
+        throw new Error("Error updating the data.");
       }
     } catch (error) {
       console.log(error);

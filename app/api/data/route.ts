@@ -45,9 +45,13 @@ export async function GET(req:NextRequest){
 
 export async function DELETE(req:NextRequest){
     await connectMongoDB();
+    console.log(req.nextUrl.searchParams);
+    const searchParams = req.nextUrl.searchParams
+  const id = searchParams.get('id')
     const filter= req.nextUrl.searchParams.get('deleteall')
-
-    await Data.deleteMany({flag:filter});
+   
+    await Data.deleteMany({autherId:id},{flag:filter})
+    
     
     return NextResponse.json({message:"Deleted all with filter."},{status:201})
 }

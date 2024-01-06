@@ -36,6 +36,9 @@ const getData = async (email: String | null | undefined) => {
     console.log(error);
   }
 };
+function stringifyWithoutQuotes(obj: any) {
+  return JSON.stringify(obj).replace(/^"(.*)"$/, "$1");
+}
 
 const Dashboard = async ({ data: session }: HomeProps) => {
   if (!session) {
@@ -43,6 +46,10 @@ const Dashboard = async ({ data: session }: HomeProps) => {
   }
   let completed, inProgress, untouched;
   const email = session.user?.email;
+  const res = await User.findOne({ email });
+  const userId: String = stringifyWithoutQuotes(res._id);
+  console.log(`This is the user id: ${userId}`);
+
   console.log(email);
   const tasks = await getData(email);
   if (!tasks) {
@@ -61,7 +68,7 @@ const Dashboard = async ({ data: session }: HomeProps) => {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row justify-between items-center relative">
             <h2>Untouched:</h2>
-            <DeleteAll filter={"Untouched"} />
+            <DeleteAll filter={"Untouched"} id={userId} />
           </div>
           <div>
             {untouched?.map((val: any, id: any) => (
@@ -72,7 +79,7 @@ const Dashboard = async ({ data: session }: HomeProps) => {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row justify-between items-center relative">
             <h2>In Progress:</h2>
-            <DeleteAll filter={"In-Progress"} />
+            <DeleteAll filter={"In-Progress"} id={userId} />
           </div>
           <div>
             {inProgress?.map((val: any, id: any) => (
@@ -83,7 +90,7 @@ const Dashboard = async ({ data: session }: HomeProps) => {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row justify-between items-center relative">
             <h2>Completed:</h2>
-            <DeleteAll filter={"Completed"} />
+            <DeleteAll filter={"Completed"} id={userId} />
           </div>
           <div>
             {completed?.map((val: any, id: any) => (
