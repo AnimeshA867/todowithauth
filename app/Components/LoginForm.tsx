@@ -28,7 +28,7 @@ const LoginForm = () => {
         return;
       }
 
-      router.replace("/");
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
