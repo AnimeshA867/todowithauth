@@ -38,7 +38,7 @@ const AddData = () => {
     setLoading(true);
   };
   return (
-    <div className="h-fit w-1/3">
+    <div className="h-fit lg:w-1/3 w-4/5">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label htmlFor="data">Enter New Data:</label>
         <input
@@ -46,7 +46,7 @@ const AddData = () => {
           id="data"
           name="data"
           placeholder="Enter a new data for todolist"
-          className="px-4 py-2 text-2xl text-black focus:ring-blue-400 focus:ring-2 "
+          className="px-4 py-2 lg:text-2xl text-xl text-black focus:ring-blue-400 focus:ring-2 "
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
         />

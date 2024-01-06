@@ -10,9 +10,10 @@ export async function PUT(request:any, {params}:{params:any}){
     return NextResponse.json({message:"Topic Updated."},{status:200})
 }
 
-export async function GET({params}:{params:any}){
+export async function GET(req:any,{params}:{params:{id:String}}){
     
     await connectMongoDB();
+    
     try{
         const {id}=params;
 
@@ -25,12 +26,13 @@ export async function GET({params}:{params:any}){
         }
     }catch(error){
         console.log(error);
+        return NextResponse.json({message:"Unable to get the data."},{status:404})
     }
     
 }
 
 
-export async function DELETE({params}){
+export async function DELETE(req:NextRequest,{params}:{params:{id:String}}){
     await connectMongoDB();
     console.log(params);
     const {id}= params

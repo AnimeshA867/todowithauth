@@ -36,7 +36,7 @@ const LoginForm = () => {
   };
   return (
     <div className="grid place-items-center h-screen w-full">
-      <div className="p-5 rounded-g border-t-4 border-green-400 shadow-lg w-1/4">
+      <div className="p-5 rounded-g border-t-4 border-green-400 shadow-lg lg:w-1/4 w-4/5">
         <h1 className="text-xl fond-bold my-4">Enter the detials</h1>
 
         <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>

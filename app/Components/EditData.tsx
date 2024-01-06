@@ -30,7 +30,7 @@ const EditData = ({
       //   }
       setLoading(true);
 
-      const res = await fetch(`/api/data/${id}`, {
+      const res = await fetch(`api/data/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: newTodo, flag: newFlag }),
@@ -47,7 +47,7 @@ const EditData = ({
     setLoading(false);
   };
   return (
-    <div className="h-fit w-1/3">
+    <div className="h-fit lg:w-1/3 w-4/5 ">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label htmlFor="data">Enter Updated Data:</label>
         <input
@@ -55,7 +55,7 @@ const EditData = ({
           id="data"
           name="data"
           placeholder="Enter a new data for todolist"
-          className="px-4 py-2 text-2xl text-black focus:ring-blue-400 focus:ring-2 "
+          className="px-4 py-2 lg:text-2xl text-xl text-black focus:ring-blue-400 focus:ring-2 "
           onChange={(e) => setNewTodo(e.target.value)}
           value={newTodo}
         />
@@ -66,15 +66,24 @@ const EditData = ({
           id="flag"
           defaultValue={newFlag}
           onChange={(e) => setNewFlag(e.target.value)}
-          className="text-black text-xl px-4 py-2"
+          className="text-black lg:text-xl text-lg px-4 py-2"
         >
-          <option value="Untouched" className="px-4 py-2 text-xl text-black">
+          <option
+            value="Untouched"
+            className="px-4 py-2 lg:text-xl text-lg text-black"
+          >
             Untouched
           </option>
-          <option value="In-Progress" className="px-4 py-2 text-xl text-black">
+          <option
+            value="In-Progress"
+            className="px-4 py-2 lg:text-xl text-lg text-black"
+          >
             In-Progress
           </option>
-          <option value="Completed" className="px-4 py-2 text-xl text-black">
+          <option
+            value="Completed"
+            className="px-4 py-2 lg:text-xl text-lg text-black"
+          >
             Completed
           </option>
         </select>
