@@ -5,6 +5,7 @@ import {User} from "@/models/user";
 import { NextURL } from "next/dist/server/web/next-url";
 
 
+
 export async function POST(req:any){
     await connectMongoDB();
     try{

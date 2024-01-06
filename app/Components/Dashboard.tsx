@@ -46,6 +46,7 @@ const Dashboard = async ({ data: session }: HomeProps) => {
   }
   let completed, inProgress, untouched;
   const email = session.user?.email;
+  await connectMongoDB();
   const res = await User.findOne({ email });
   const userId: String = stringifyWithoutQuotes(res._id);
   console.log(`This is the user id: ${userId}`);
