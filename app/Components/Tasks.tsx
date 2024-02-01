@@ -29,7 +29,7 @@ const Tasks = ({ data, id }: { data: String; id: String }) => {
   };
 
   return (
-    <div className="h-[4rem] w-full shadow-md text-black bg-white border-2 border-collapse border-gray-700 px-4 py-2 flex flex-row">
+    <div className="min-h-[4rem] w-full shadow-md text-black bg-white border-2 border-collapse border-gray-700 px-4 py-2 flex flex-row">
       <div className="w-4/5 flex items-center justify-start my-auto h-full">
         {data}
       </div>
